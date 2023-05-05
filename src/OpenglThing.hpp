@@ -12,8 +12,10 @@ class OpenglThing {
     // The program's window
     GLFWwindow *window;
     public:
-    OpenglThing(bool *running, char *name, int width, int height);
+    static OpenglThing *instance_ptr;
+    OpenglThing(bool *running, std::string name, int width, int height);
     ~OpenglThing();
     void stop_program();
     GLFWwindow *get_window();
+    int setup_glad();
 };

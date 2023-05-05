@@ -1,9 +1,10 @@
+#include <glad/glad.h>
 #include <iostream>
 #include <GLFW/glfw3.h>
 #include "OpenglThing.hpp"
 #include <unistd.h>
 
-int initialize_glfw_window() {
+int initialize_glfw() {
     if (!glfwInit()) {
         return -1;
     }
@@ -15,16 +16,19 @@ int initialize_glfw_window() {
 
 int main() {
     bool running = true;
-    if (initialize_glfw_window() == -1) {
+    if (initialize_glfw() == -1) {
+        std::cerr << "Failed to initialize glfw" << std::endl;
         glfwTerminate();
         return 1;
     }
-    auto *thing = new OpenglThing(&running, "a thing i guess", 800, 600);
+    if ((new OpenglThing(&running, "a thing i guess", 800, 600)) == nullptr) {
+        std::cerr << "Failed to create OpenglThing instance object";
+    }
     while (running) {
         sleep(10);
-        thing->stop_program();
+        OpenglThing::instance_ptr->stop_program();
     }
-    delete thing;
+    delete OpenglThing::instance_ptr;
     return 0;
 }
 

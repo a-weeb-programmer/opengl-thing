@@ -12,19 +12,44 @@
     {
       devShells.x86_64-linux.default = pkgs.mkShell {
         packages = with pkgs; [
+          libGL
           cmake
           gnumake
           clang
+          extra-cmake-modules
         ];
         buildInputs = with pkgs; [
-          libglvnd
-          glfw
+          wayland
+          wayland-protocols
+          libxkbcommon
+          libffi
         ];
 
         shellHook = ''
           echo ${pkgs.libglvnd.dev}
-          echo ${pkgs.glfw}
         '';
       };
+
+      devShells.x86_64-linux.x11 = pkgs.mkShell {
+        packages = with pkgs; [
+          cmake
+          gnumake
+          clang
+          extra-cmake-modules
+        ];
+        buildInputs = with pkgs; [
+          libGL
+          xorg.libX11
+          xorg.libXinerama
+          xorg.libXi
+          xorg.libXcursor
+          xorg.libXrandr
+        ];
+
+        shellHook = ''
+          echo ${pkgs.libglvnd.dev}
+        '';
+      };
+
     };
 }
